@@ -24,13 +24,13 @@ export class InventoryService {
   }
 
   updateItem(id: string, updatedData: any) {
-    this.http.put('${this.apiUrl}/${id}', updatedData).subscribe(() => {
+    this.http.put(`${this.apiUrl}/${id}`, updatedData).subscribe(() => {
       this.loadInventory();
     });
   }
 
   deleteItem(id: string) {
-    this.http.delete('${this.apiUrl}/${id}').subscribe(() => {
+    this.http.delete(`${this.apiUrl}/${id}`).subscribe(() => {
       this.loadInventory();
     });
   }
