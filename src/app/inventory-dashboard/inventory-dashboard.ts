@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InventoryService } from '../inventory.service';
 
@@ -9,8 +9,11 @@ import { InventoryService } from '../inventory.service';
   templateUrl: './inventory-dashboard.html',
   styleUrl: './inventory-dashboard.css',
 })
-export class InventoryDashboard {
+export class InventoryDashboard implements OnInit {
   inventoryService = inject(InventoryService);
+
+  isLocked = signal<boolean>(true);
+  errorMessage = signal<string>('');
 
   itemForm = new FormGroup({
     itemName: new FormControl('', Validators.required),
@@ -18,6 +21,19 @@ export class InventoryDashboard {
     quantity: new FormControl(1, [Validators.required, Validators.min(0)]),
     shippingStatus: new FormControl('In Warehouse', Validators.required)
   });
+
+  ngOnInit() {
+    this.inventoryService.loadInventory();
+  }
+
+  unlockTerminal(pin: string) {
+    if (pin === 'APPDEV1') {
+      this.isLocked.set(false);
+      this.errorMessage.set('');
+    } else {
+      this.errorMessage.set('❌ Invalid Terminal PIN. Access Denied.');
+    }
+  }
 
   onSubmit() {
     if (this.itemForm.valid) {
