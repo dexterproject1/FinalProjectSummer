@@ -46,4 +46,9 @@ export class InventoryDashboard implements OnInit {
     const updated = { ...currentItem, shippingStatus: 'In Transit' };
     this.inventoryService.updateItem(id, updated);
   }
+
+  deliverItem(id: string, currentItem: any) {
+    const updated = { ...currentItem, shippingStatus: 'Delivered'};
+    this.inventoryService.updateItem(id, updated);
+  }
 }
