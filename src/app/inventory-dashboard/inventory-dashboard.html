@@ -59,6 +59,11 @@
               @if (item.shippingStatus === 'In Warehouse') {
                 <button class="btn-ship" (click)="shipItem(item._id, item)">Dispatch</button>
               }
+
+              @else if (item.shippingStatus === 'In Transit') {
+                <button class="btn-deliver" (click)="deliverItem(item._id, item)">Mark Delivered</button>
+              }
+
               <button class="btn-delete" (click)="inventoryService.deleteItem(item._id)">Remove Record</button>
             </td>
           </tr>
@@ -70,5 +75,4 @@
       </tbody>
     </table>
   </div>
-
 }
