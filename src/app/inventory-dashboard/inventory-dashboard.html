@@ -6,7 +6,7 @@
     <input type="password" #pinBox placeholder="Enter Passcode" (keyup.enter)="unlockTerminal(pinBox.value)">
     <button (click)="unlockTerminal(pinBox.value)">Verify Identity</button>
     
-    <p class="grading-hint"><strong>Grading Hint:</strong> Use passcode <code>APPDEV1</code> to evaluate dashboard features.</p>
+    <p class="grading-hint"><strong>Password:</strong><code>APPDEV1</code></p>
     
     @if (errorMessage()) {
       <p class="error">{{ errorMessage() }}</p>
@@ -33,7 +33,7 @@
   
     <hr>
   
-    <h3>📋 Current Master Inventory & Shipping Logs</h3>
+    <h3>📋 LogiTrack Control Hub</h3>
     <table class="inventory-table">
       <thead>
         <tr>

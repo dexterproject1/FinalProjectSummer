@@ -244,3 +244,22 @@ h3 {
     margin-top: 16px !important;
     font-size: 14px !important;
 }
+
+.btn-deliver {
+    background-color: #3b82f6;
+    color: #ffffff;
+    border: none;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 4px;
+    cursor: pointer;
+    
+    margin-right: 8px; 
+    
+    transition: background-color 0.2s ease;
+}
+
+.btn-deliver:hover {
+    background-color: #2563eb;
+}
