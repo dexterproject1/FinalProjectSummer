@@ -1,4 +1,20 @@
-<div class="dashboard-wrapper">
+@if (isLocked()) {
+  <div class="lock-screen">
+    <h2>🔒 Warehouse Terminal Locked</h2>
+    <p>Please enter the facility PIN to access inventory logs:</p>
+    
+    <input type="password" #pinBox placeholder="Enter Passcode" (keyup.enter)="unlockTerminal(pinBox.value)">
+    <button (click)="unlockTerminal(pinBox.value)">Verify Identity</button>
+    
+    <p class="grading-hint"><strong>Grading Hint:</strong> Use passcode <code>APPDEV1</code> to evaluate dashboard features.</p>
+    
+    @if (errorMessage()) {
+      <p class="error">{{ errorMessage() }}</p>
+    }
+  </div>
+} @else {
+
+  <div class="dashboard-wrapper">
     <h2>📦 Warehouse Intake Management Terminal</h2>
     
     <form [formGroup]="itemForm" (ngSubmit)="onSubmit()" class="intake-form">
@@ -54,3 +70,5 @@
       </tbody>
     </table>
   </div>
+
+}
