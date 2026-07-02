@@ -1,0 +1,161 @@
+.dashboard-wrapper {
+    max-width: 1100px;
+    margin: 80px auto 40px auto;
+    padding: 20px;
+    font-family: 'Sagoe UI', Roboto, Helvetica, Arial, sans-serif;
+    color: #333333;
+}
+
+h2 {
+    color: #1e293b;
+    font-size: 26px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 10px;
+}
+
+h3 {
+    color: #334155;
+    font-size: 20px;
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+.intake-form input,
+.intake-form select {
+    flex: 1;
+    min-width: 200px;
+    padding: 10px 14px;
+    font-size: 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    background-color: #ffffff;
+    color: #1e293b;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.intake-form input:focus,
+.intake-form select:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59. 130, 246, 0.15);
+}
+
+.intake-form button {
+    background-color: #2563eb;
+    color: #ffffff;
+    border: none;
+    padding: 10px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.intake-form button:hover {
+    background-color: #1d4ed8;
+}
+  
+.intake-form button:disabled {
+    background-color: #94a3b8;
+    cursor: not-allowed;
+}
+
+.inventory-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    border: 1px solid #e2e8f0;
+}
+  
+.inventory-table th {
+    background-color: #1e293b;
+    color: #ffffff;
+    text-align: left;
+    padding: 14px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+  
+.inventory-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid #e2e8f0;
+    color: #475569;
+    font-size: 15px;
+}
+  
+.inventory-table tbody tr:hover {
+    background-color: #f1f5f9;
+}
+  
+.inventory-table code {
+    background-color: #f1f5f9;
+    padding: 3px 6px;
+    border-radius: 4px;
+    font-family: 'Courier New', Courier, monospace;
+    color: #0f172a;
+    font-weight: bold;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 50px;
+    text-align: center;
+}
+
+.status-badge[data-status="In Warehouse"] {
+    background-color: #fef3c7;
+    color: #d97706;
+}
+
+.status-badge[data-status="In Transit"] {
+    background-color: #dbeafe;
+    color: #2563eb;
+}
+
+.status-badge[data-status="In Delivered"] {
+    background-color: #dcfce7;
+    color: #16a34a;
+}
+
+.btn-ship {
+    background-color: #10b981;
+    color: #ffffff;
+    border: none;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 8px;
+    transition: background-color 0.2s ease;
+}
+
+.btn-ship:hover {
+    background-color: #059669;
+}
+
+.btn-delete {
+    background-color: #ef4444;
+    color: #ffffff;
+    border: none;
+    padding: 6px 12 px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn-delete:hover {
+    background-color: #dc2626;
+}

@@ -1,0 +1,56 @@
+<div class="dashboard-wrapper">
+    <h2>📦 Warehouse Intake Management Terminal</h2>
+    
+    <form [formGroup]="itemForm" (ngSubmit)="onSubmit()" class="intake-form">
+      <input type="text" formControlName="itemName" placeholder="Item Name (e.g., Wireless Mouse)">
+      <input type="text" formControlName="sku" placeholder="SKU Number (e.g., MS-902)">
+      <input type="number" formControlName="quantity" placeholder="Quantity">
+      
+      <select formControlName="shippingStatus">
+        <option value="In Warehouse">In Warehouse</option>
+        <option value="In Transit">In Transit</option>
+        <option value="Delivered">Delivered</option>
+      </select>
+      
+      <button type="submit" [disabled]="!itemForm.valid">Log Stock Entry</button>
+    </form>
+  
+    <hr>
+  
+    <h3>📋 Current Master Inventory & Shipping Logs</h3>
+    <table class="inventory-table">
+      <thead>
+        <tr>
+          <th>Item Name</th>
+          <th>SKU</th>
+          <th>Quantity Stock</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (item of inventoryService.items(); track item._id) {
+          <tr>
+            <td><strong>{{ item.itemName }}</strong></td>
+            <td><code>{{ item.sku }}</code></td>
+            <td>{{ item.quantity }} units</td>
+            <td>
+              <span class="status-badge" [attr.data-status]="item.shippingStatus">
+                {{ item.shippingStatus }}
+              </span>
+            </td>
+            <td>
+              @if (item.shippingStatus === 'In Warehouse') {
+                <button class="btn-ship" (click)="shipItem(item._id, item)">Dispatch</button>
+              }
+              <button class="btn-delete" (click)="inventoryService.deleteItem(item._id)">Remove Record</button>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="5" style="text-align: center;">No inventory records found in MongoDB cluster.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
