@@ -38,7 +38,7 @@ h3 {
 .intake-form input:focus,
 .intake-form select:focus {
     border-color: #3b82f6;
-    box-shadow: 0 0 0 3px rgba(59. 130, 246, 0.15);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
 }
 
 .intake-form button {
@@ -148,7 +148,7 @@ h3 {
     background-color: #ef4444;
     color: #ffffff;
     border: none;
-    padding: 6px 12 px;
+    padding: 6px 12px;
     font-size: 13px;
     font-weight: 600;
     border-radius: 4px;
@@ -158,4 +158,89 @@ h3 {
 
 .btn-delete:hover {
     background-color: #dc2626;
+}
+
+.lock-screen {
+    max-width: 420px;
+    margin: 120px auto;
+    padding: 35px 25px;
+    background: #ffffff;
+    border-radius: 10px;
+    border: 1px solid #cbd5e1;
+    text-align: center;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+}
+
+.lock-screen h2 {
+    color: #0f172a;
+    border: none;
+    margin-bottom: 8px;
+    padding: 0;
+    font-size: 22px;
+}
+
+.lock-screen p {
+    color: #64748b;
+    font-size: 14px;
+    margin-bottom: 24px;
+}
+
+.lock-screen input {
+    width: 85%;
+    padding: 12px;
+    margin-bottom: 16px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 16px;
+    letter-spacing: 3px;
+    outline: none;
+}
+
+.lock-screen input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.lock-screen button {
+    background-color: #1e293b;
+    color: #ffffff;
+    border: none;
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 92%;
+    transition: background-color 0.2s ease;
+}
+
+.lock-screen button:hover {
+    background-color: #0f172a;
+}
+
+.grading-hint {
+    margin-top: 24px !important;
+    padding: 10px !important;
+    background-color: #f8fafc;
+    border: 1px dashed #cbd5e1;
+    border-radius: 6px;
+    color: #475569 !important;
+    font-size: 13px !important;
+}
+
+.grading-hint code {
+    background-color: #e2e8f0;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: monospace;
+    font-weight: bold;
+    color: #0f172a;
+}
+
+.error {
+    color: #ef4444 !important;
+    font-weight: 600;
+    margin-top: 16px !important;
+    font-size: 14px !important;
 }
