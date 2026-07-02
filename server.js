@@ -11,13 +11,22 @@ mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('Connected to Warehouse MongoDB Master Database'))
   .catch(err => console.error('MongoDB connection error:', err));
 
-const ItemSchema = new mongoose.Schema({
+const itemSchema = new mongoose.Schema({
   itemName: String,
   sku: String,
   quantity: Number,
   shippingStatus: String
 });
-const InventoryItem = mongoose.model('InventoryItem', ItemSchema);
+const InventoryItem = mongoose.model('InventoryItem', itemSchema);
+
+app.get('/api/inventory', async (req, res) => {
+  try {
+    const items = await InventoryItem.find();
+    res.json(items);
+  } catch (err) { 
+    res.status(500).json({ error: err.message }); 
+  }
+});
 
 app.post('/api/inventory', async (req, res) => {
   try {
