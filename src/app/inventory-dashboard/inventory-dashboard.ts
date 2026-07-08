@@ -1,31 +1,35 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { FormsModule } from '@angular/forms';
+import { Component, OnInit, inject } from '@angular/core';
+import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { InventoryService } from '../inventory.service';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-inventory-dashboard',
   standalone: true,
-  imports: [ReactiveFormsModule, FormsModule, CommonModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './inventory-dashboard.html',
-  styleUrl: './inventory-dashboard.css',
+  styleUrl: './inventory-dashboard.css'
 })
 export class InventoryDashboard implements OnInit {
-  inventoryService = inject(InventoryService);
+  public inventoryService = inject(InventoryService);
   private router = inject(Router);
-  
-  searchWord: string = '';
+
   selectedRoom: number = 1;
+  searchWord: string = '';
 
   itemForm = new FormGroup({
-    itemName: new FormControl('', Validators.required),
-    sku: new FormControl('', Validators.required),
+    itemName: new FormControl('', [Validators.required]),
+    sku: new FormControl('', [Validators.required]),
     quantity: new FormControl(1, [Validators.required, Validators.min(1)]),
-    shippingStatus: new FormControl('In Warehouse', Validators.required),
-    category: new FormControl('', Validators.required)
+    category: new FormControl(''),
+    shippingStatus: new FormControl('In Warehouse', [Validators.required])
   });
+
+  ngOnInit() {
+    if (!this.inventoryService.currentUser) {
+      this.router.navigate(['/']);
+    }
+  }
 
   switchRoom(roomNumber: number) {
     this.selectedRoom = roomNumber;
@@ -33,50 +37,50 @@ export class InventoryDashboard implements OnInit {
 
   getRoomFilteredItems() {
     return this.inventoryService.itemList.filter(item => {
-      const matchesRoom = item.roomLocation === this.selectedRoom;
+      const itemRoom = item.roomLocation || 1;
+      const matchesRoom = itemRoom === this.selectedRoom;
       
-      const matchesSearch = item.itemName.toLowerCase().includes(this.searchWord.toLowerCase()) || 
-                            item.sku.toLowerCase().includes(this.searchWord.toLowerCase());
+      const targetQuery = this.searchWord.toLowerCase();
+      const matchesSearch = item.itemName.toLowerCase().includes(targetQuery) || 
+                            item.sku.toLowerCase().includes(targetQuery);
                             
       return matchesRoom && matchesSearch;
     });
   }
 
-  ngOnInit() {
-    if (!this.inventoryService.currentUser) {
-      this.router.navigate(['/']);
-      return;
-    }
-    this.inventoryService.getItems();
-  }
-
+  // 📊 Metric Aggregation Loop Functions mapped strictly to the Active Room Space
   getTotalQuantity() {
-    return this.inventoryService.itemList.reduce((sum, item) => sum + (item.quantity || 0), 0);
+    return this.inventoryService.itemList
+      .filter(item => (item.roomLocation || 1) === this.selectedRoom)
+      .reduce((sum, item) => sum + (item.quantity || 0), 0);
   }
 
   getWarehouseCount() {
-    return this.inventoryService.itemList.filter(i => i.shippingStatus === 'In Warehouse').length;
+    return this.inventoryService.itemList
+      .filter(item => (item.roomLocation || 1) === this.selectedRoom && item.shippingStatus === 'In Warehouse')
+      .length;
   }
 
   getTransitCount() {
-    return this.inventoryService.itemList.filter(i => i.shippingStatus === 'In Transit').length;
-  }
-
-  getFilteredItems() {
-    return this.inventoryService.itemList.filter(item => {
-      return item.itemName.toLowerCase().includes(this.searchWord.toLowerCase()) || 
-             item.sku.toLowerCase().includes(this.searchWord.toLowerCase());
-    });
+    return this.inventoryService.itemList
+      .filter(item => (item.roomLocation || 1) === this.selectedRoom && item.shippingStatus === 'In Transit')
+      .length;
   }
 
   onSave() {
     if (this.itemForm.invalid) return;
-    const payload = {
-      ...this.itemForm.value,
+
+    const newItem = {
+      _id: 'ID-' + Math.random().toString(36).substr(2, 9),
+      itemName: this.itemForm.value.itemName!,
+      sku: this.itemForm.value.sku!,
+      quantity: Number(this.itemForm.value.quantity!),
+      category: this.itemForm.value.category || 'Unassigned',
+      shippingStatus: this.itemForm.value.shippingStatus!,
       roomLocation: this.selectedRoom
     };
 
-    this.inventoryService.addItem(payload);
+    this.inventoryService.itemList.push(newItem);
 
     this.itemForm.reset({
       quantity: 1,
@@ -86,21 +90,19 @@ export class InventoryDashboard implements OnInit {
   }
 
   changeToTransit(id: string, item: any) {
-    this.inventoryService.updateItem(id, { ...item, shippingStatus: 'In Transit' });
+    item.shippingStatus = 'In Transit';
   }
 
   changeToDelivered(id: string, item: any) {
-    this.inventoryService.updateItem(id, { ...item, shippingStatus: 'Delivered' });
+    item.shippingStatus = 'Delivered';
   }
 
   onDelete(id: string) {
-    if (confirm('Are you sure you want to delete this item?')) {
-      this.inventoryService.deleteItem(id);
-    }
+    this.inventoryService.itemList = this.inventoryService.itemList.filter(i => i._id !== id);
   }
 
   logout() {
-    this.inventoryService.currentUser = null;
+    this.inventoryService.currentUser = '';
     this.router.navigate(['/']);
   }
 }
