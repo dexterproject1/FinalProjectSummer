@@ -25,7 +25,8 @@ export class AuthPortal {
     const { username, password } = this.loginForm.value;
 
     if (username === 'admin' && password === 'APPDEV1') {
-      this.inventoryService.currentUser = { username: 'admin' };
+      
+      this.inventoryService.currentUser = 'admin';
       
       this.router.navigate(['/dashboard']);
     } else {
