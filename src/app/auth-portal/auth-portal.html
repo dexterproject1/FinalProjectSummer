@@ -1,0 +1,33 @@
+<div class="login-page">
+  <div class="login-box">
+    <h2>System Login</h2>
+    <p>Please enter your account details below.</p>
+    
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+      <div class="form-group">
+        <input 
+          type="text" 
+          formControlName="username" 
+          placeholder="Username (more than 4 characters)">
+      </div>
+      
+      <div class="form-group">
+        <input 
+          type="password" 
+          formControlName="password" 
+          placeholder="Password (more than 4 characters)">
+      </div>
+      
+      <button type="submit" class="btn-primary" [disabled]="loginForm.invalid">Login</button>
+    </form>
+    
+    <div class="switch-link">
+      <a href="#">New user? Register an account here</a>
+    </div>
+    
+    <div class="test-notice">
+      <strong>Default Account Check:</strong><br>
+      User: admin | Pass: APPDEV1
+    </div>
+  </div>
+</div>
