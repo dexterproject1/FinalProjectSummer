@@ -35,6 +35,15 @@ export class InventoryDashboard implements OnInit {
     this.selectedRoom = roomNumber;
   }
 
+
+  getAvailableCategories(): string[] {
+    const activeCategories = this.inventoryService.itemList
+      .filter(item => (item.quantity || 0) > 0)
+      .map(item => item.category || 'General');
+      
+    return Array.from(new Set(activeCategories));
+  }
+
   getRoomFilteredItems() {
     return this.inventoryService.itemList.filter(item => {
       const itemRoom = item.roomLocation || 1;
@@ -48,7 +57,6 @@ export class InventoryDashboard implements OnInit {
     });
   }
 
-  // 📊 Metric Aggregation Loop Functions mapped strictly to the Active Room Space
   getTotalQuantity() {
     return this.inventoryService.itemList
       .filter(item => (item.roomLocation || 1) === this.selectedRoom)
@@ -70,19 +78,23 @@ export class InventoryDashboard implements OnInit {
   onSave() {
     if (this.itemForm.invalid) return;
 
+    const formValues = this.itemForm.value;
+
     const newItem = {
       _id: 'ID-' + Math.random().toString(36).substr(2, 9),
-      itemName: this.itemForm.value.itemName!,
-      sku: this.itemForm.value.sku!,
-      quantity: Number(this.itemForm.value.quantity!),
-      category: this.itemForm.value.category || 'Unassigned',
-      shippingStatus: this.itemForm.value.shippingStatus!,
+      itemName: formValues.itemName!,
+      sku: formValues.sku!,
+      quantity: Number(formValues.quantity!),
+      category: formValues.category || 'General',
+      shippingStatus: formValues.shippingStatus!,
       roomLocation: this.selectedRoom
     };
 
     this.inventoryService.itemList.push(newItem);
 
     this.itemForm.reset({
+      itemName: '',
+      sku: '',
       quantity: 1,
       shippingStatus: 'In Warehouse',
       category: ''
