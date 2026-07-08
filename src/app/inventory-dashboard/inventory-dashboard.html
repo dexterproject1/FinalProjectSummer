@@ -45,6 +45,9 @@
             <option value="Electronics">Electronics</option>
             <option value="Furniture">Furniture</option>
             <option value="Tools">Tools</option>
+            <option value="Toys">Toys & Games</option>
+            <option value="Apparel">Apparel & Clothing (T-shirts)</option>
+            <option value="Exercise Equipment">Exercise & Sports Equipment</option>
           </select>
         </div>
         <div class="form-group">
@@ -93,7 +96,12 @@
               <td><strong>{{ item.itemName }}</strong></td>
               <td><span class="sku-badge">{{ item.sku }}</span></td>
               <td>{{ item.quantity }}</td>
-              <td><span class="badge-category">{{ item.category || 'Unassigned' }}</span></td>
+              
+              <td>
+                <span class="badge-category" [attr.data-category]="item.category">
+                  {{ item.category || 'Unassigned' }}
+                </span>
+              </td>
               <td><span class="status-lbl">{{ item.shippingStatus }}</span></td>
               <td>
                 <div class="action-buttons">
